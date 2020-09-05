@@ -118,11 +118,11 @@ function getKeyForOptions(
 }
 
 /**
- * Validate the request body data against JSON schema.
- * @param body - The request body data.
+ * Validate the value against JSON schema.
+ * @param value - The data value.
  * @param schema - The JSON schema used to perform the validation.
  * @param globalSchemas - Schema references.
- * @param options - Request body validation options.
+ * @param options - Value validation options.
  */
 export async function validateValueAgainstSchema(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -156,10 +156,11 @@ export async function validateValueAgainstSchema(
   try {
     const validationResult = await validate(value);
     // When value is optional & values is empty / null, ajv returns null
-    if (validationResult || validationResult === null) {
-      debug(`Value from ${options.source} passed AJV validation.`);
-      return;
-    }
+    debug(
+      `Value from ${options.source} passed AJV validation.`,
+      validationResult,
+    );
+    return;
   } catch (error) {
     validationErrors = error.errors;
   }
